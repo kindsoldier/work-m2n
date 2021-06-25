@@ -25,15 +25,15 @@ $ curl -v http://localhost:8080/board/objects/list
             "objectName": "Foo",
             "attributes": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724014",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "attributeId": "2c6af98c-d507-11eb-affd-68f728724014",
                     "name": "Longitude",
                     "type": "numeric",
                     "value": 0
                 },
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724016",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "attributeId": "2c6af98c-d507-11eb-affd-68f728724016",
                     "name": "Latitude",
                     "type": "numeric",
                     "value": 67
@@ -41,8 +41,8 @@ $ curl -v http://localhost:8080/board/objects/list
             ],
             "configs": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724011",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "configId": "2c6af98c-d507-11eb-affd-68f728724011",
                     "name": "Temp",
                     "type": "integer",
                     "value": 0
@@ -50,8 +50,8 @@ $ curl -v http://localhost:8080/board/objects/list
             ],
             "measures": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724012",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "measuresId": "2c6af98c-d507-11eb-affd-68f728724012",
                     "name": "Power",
                     "type": "integer",
                     "Value": 0
@@ -65,15 +65,15 @@ $ curl -v http://localhost:8080/board/objects/list
             "objectName": "Bar",
             "attributes": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724014",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "attributeId": "2c6af98c-d507-11eb-affd-68f728724014",
                     "name": "Longitude",
                     "type": "numeric",
                     "value": 0
                 },
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724016",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "attributeId": "2c6af98c-d507-11eb-affd-68f728724016",
                     "name": "Latitude",
                     "type": "numeric",
                     "value": 0
@@ -81,8 +81,8 @@ $ curl -v http://localhost:8080/board/objects/list
             ],
             "configs": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724011",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "configId": "2c6af98c-d507-11eb-affd-68f728724011",
                     "name": "Temp",
                     "type": "integer",
                     "value": 0
@@ -90,8 +90,8 @@ $ curl -v http://localhost:8080/board/objects/list
             ],
             "measures": [
                 {
-                    "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                    "classId": "2c6af98c-d507-11eb-affd-68f728724012",
+                    "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                    "measureId": "2c6af98c-d507-11eb-affd-68f728724012",
                     "name": "Power",
                     "type": "integer",
                     "Value": 0
@@ -156,15 +156,15 @@ $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4
         "objectName": "Foo",
         "attributes": [
             {
-                "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                "classId": "2c6af98c-d507-11eb-affd-68f728724014",
+                "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                "attributeId": "2c6af98c-d507-11eb-affd-68f728724014",
                 "name": "Longitude",
                 "type": "numeric",
                 "value": 0
             },
             {
-                "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                "classId": "2c6af98c-d507-11eb-affd-68f728724016",
+                "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                "attributeId": "2c6af98c-d507-11eb-affd-68f728724016",
                 "name": "Latitude",
                 "type": "numeric",
                 "value": 67
@@ -172,8 +172,8 @@ $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4
         ],
         "configs": [
             {
-                "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                "classId": "2c6af98c-d507-11eb-affd-68f728724011",
+                "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                "configId": "2c6af98c-d507-11eb-affd-68f728724011",
                 "name": "Temp",
                 "type": "integer",
                 "value": 0
@@ -181,8 +181,8 @@ $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4
         ],
         "measures": [
             {
-                "masterId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
-                "classId": "2c6af98c-d507-11eb-affd-68f728724012",
+                "ownerId": "0e3d4edc-4ded-4d39-bfad-d1cf900c987d",
+                "measureId": "2c6af98c-d507-11eb-affd-68f728724012",
                 "name": "Power",
                 "type": "integer",
                 "Value": 0
