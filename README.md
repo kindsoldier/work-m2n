@@ -1,4 +1,4 @@
-## work-i2m
+## work-i2m, rapid but good work prototype
 
 ### list control boards
 
@@ -101,7 +101,15 @@ $ curl -v http://localhost:8080/board/objects/list
 ```
 
 ### set attribute of a board
-
+```
+{ 
+    "params": { 
+        "boardId":"0e3d4edc-4ded-4d39-bfad-d1cf900c987d", 
+        "attributeId":"2c6af98c-d507-11eb-affd-68f728724016",
+        "value":67 
+    }
+}
+```
 
 ```
 $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "attributeId":"2c6af98c-d507-11eb-affd-68f728724016","value":67 }}' http://localhost:8080/board/attribute/set
@@ -121,7 +129,9 @@ $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4
 ```
 
 ### get the board again
-
+```
+{ "params": { "boardId":"0e3d4edc-4ded-4d39-bfad-d1cf900c987d" }}
+```
 ```
 $ curl -v -H "Content-Type: application/json" -d '{ "params": { "boardId":"0e3d4edc-4ded-4d39-bfad-d1cf900c987d" }}' http://localhost:8080/board/object/get
 * Connected to localhost (127.0.0.1) port 8080 (#0)
