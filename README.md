@@ -1,5 +1,7 @@
 ## work-i2m, rapid but good work prototype
 
+work in progress
+
 ### list control boards
 
 ```
