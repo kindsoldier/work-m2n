@@ -1,4 +1,4 @@
-## work-i2m, rapid but good work prototype
+## work-i2m, rapid but good working prototype
 
 work in progress
 
