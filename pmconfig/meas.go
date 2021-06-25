@@ -16,16 +16,16 @@ type IMeasure interface {
 
 type MMeasure struct {
     OwnerId     pmcommon.UUID   `json:"ownerId"`
-    ClassId     pmcommon.UUID   `json:"classId"`
+    MeasureId   pmcommon.UUID   `json:"measureId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json""value"`
 }
 
-func NewMMeasure(ownerId pmcommon.UUID, classId pmcommon.UUID, name string, dType DType, value DValue) *MMeasure {
+func NewMMeasure(ownerId pmcommon.UUID, measureId pmcommon.UUID, name string, dType DType, value DValue) *MMeasure {
     var config MMeasure
     config.OwnerId     = ownerId
-    config.ClassId     = classId
+    config.MeasureId   = measureId
     config.Name        = name
     config.Type        = dType
     config.Value       = value

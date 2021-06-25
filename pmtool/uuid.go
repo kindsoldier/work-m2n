@@ -2,7 +2,7 @@
  * Copyright: Oleg Borodin <onborodin@gmail.com>
  */
 
-package pmtools
+package pmtool
 
 import (
     "github.com/satori/go.uuid"

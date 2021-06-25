@@ -16,17 +16,17 @@ type IAttribute interface {
 
 
 type MAttribute struct {
-    MasterId    pmcommon.UUID   `json:"masterId"`
-    ClassId     pmcommon.UUID   `json:"classId"`
+    OwnerId     pmcommon.UUID   `json:"ownerId"`
+    AttributeId pmcommon.UUID   `json:"attributeId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json:"value"`
 }
 
-func NewMAttribute(masterId pmcommon.UUID, classId pmcommon.UUID, name string, dType DType, value DValue) *MAttribute {
+func NewMAttribute(ownerId pmcommon.UUID, attributeId pmcommon.UUID, name string, dType DType, value DValue) *MAttribute {
     var config MAttribute
-    config.MasterId    = masterId
-    config.ClassId     = classId
+    config.OwnerId     = ownerId
+    config.AttributeId = attributeId
     config.Name        = name
     config.Type        = dType
     config.Value       = value

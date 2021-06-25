@@ -18,16 +18,16 @@ type IConfig interface {
 
 type MConfig struct {
     OwnerId     pmcommon.UUID   `json:"ownerId"`
-    ClassId     pmcommon.UUID   `json:"classId"`
+    ConfigId    pmcommon.UUID   `json:"configId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json:"value"`
 }
 
-func NewMConfig(ownerId pmcommon.UUID, classId pmcommon.UUID, name string, dType DType, value DValue) *MConfig {
+func NewMConfig(ownerId pmcommon.UUID, configId pmcommon.UUID, name string, dType DType, value DValue) *MConfig {
     var config MConfig
     config.OwnerId     = ownerId
-    config.ClassId     = classId
+    config.ConfigId    = configId
     config.Name        = name
     config.Type        = dType
     config.Value       = value

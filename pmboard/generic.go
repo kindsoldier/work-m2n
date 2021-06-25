@@ -17,6 +17,13 @@ type IBoard interface {
     SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValue) error
     SetConfig(configId pmcommon.UUID, value pmconfig.DValue) error
     GetObjectId() UUID
+    GetClassId() UUID
+    GetObjectName() string
+    GetClassName() string
+    GetFullDescr() pmconfig.IBDescr
+    GetShortDescr() pmconfig.IBDescr
+
+    IsSquared(latiMin, latiMax, longiMin, longiMax float64) bool
 }
 
 type UUID = string
@@ -51,8 +58,8 @@ type MBoard struct {
     ClassName   string
     ObjectName  string
 
-    Latitude    float64
-    Longitude   float64
+    DeviceLatitude    float64
+    DeviceLongitude   float64
 
     Temp        int
     Power       int
@@ -97,35 +104,33 @@ func (this *MBoard) SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValu
             if !ok {
                 return errors.New(ErrorIsNotNumber)
             }
-            this.Latitude = newValue
+            this.DeviceLatitude = newValue
             return err
         case GenericBoardLongAttrubuteId:
             newValue, ok := value.(float64)
             if !ok {
                 return errors.New(ErrorIsNotNumber)
             }
-            this.Latitude = newValue
+            this.DeviceLongitude = newValue
             return err
     }
     return errors.New(ErrorIdNotFound)
 }
 
-
-func (this *MBoard) UnmarshalJSON(data pmcommon.JSON) error {
-    var err error
-    var descr pmconfig.MDescr
-    err = json.Unmarshal(data, &descr)
-    this.ObjectName = descr.ObjectName
-    return err
-}
-
-func (this *MBoard) MarshalJSON() (pmcommon.JSON, error) {
-    descr := pmconfig.NewMDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+func (this *MBoard) GetFullDescr() pmconfig.IBDescr {
+    var descr pmconfig.IBDescr
+    descr = pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     descr.AddAttribute(this.newLongitudeAttrubure())
     descr.AddAttribute(this.newLatitudeAttrubure())
     descr.AddConfig(this.newTempConfig())
     descr.AddMeasure(this.newPowerMeasure())
-    return json.Marshal(descr)
+    return descr
+}
+
+func (this *MBoard) GetShortDescr() pmconfig.IBDescr {
+    var descr pmconfig.IBDescr
+    descr = pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+    return descr
 }
 
 func (this *MBoard) newTempConfig() pmconfig.IConfig {
@@ -145,19 +150,57 @@ func (this *MBoard) newPowerMeasure() pmconfig.IMeasure {
 func (this *MBoard) newLatitudeAttrubure() pmconfig.IAttribute {
     var attribute pmconfig.IAttribute
     attribute = pmconfig.NewMAttribute(this.ObjectId, GenericBoardLatiAttrubuteId,
-                    GenericBoardLatiAttrubuteName, pmconfig.DTypeNumeric, this.Latitude)
+                    GenericBoardLatiAttrubuteName, pmconfig.DTypeNumeric, this.DeviceLatitude)
     return attribute
 }
 
 func (this *MBoard) newLongitudeAttrubure() pmconfig.IAttribute {
     var attribute pmconfig.IAttribute
     attribute = pmconfig.NewMAttribute(this.ObjectId, GenericBoardLongAttrubuteId,
-                    GenericBoardLongAttrubuteName, pmconfig.DTypeNumeric, this.Longitude)
+                    GenericBoardLongAttrubuteName, pmconfig.DTypeNumeric, this.DeviceLongitude)
     return attribute
 }
 
 func (this *MBoard) GetObjectId() UUID {
     return this.ObjectId
 }
+
+func (this *MBoard) GetClassId() UUID {
+    return this.ClassId
+}
+
+func (this *MBoard) GetClassName() string {
+    return this.ClassName
+}
+
+func (this *MBoard) GetObjectName() string {
+    return this.ObjectName
+}
+
+func (this *MBoard) IsSquared(latiMin, latiMax, longiMin, longiMax float64) bool {
+    if this.DeviceLatitude > latiMin && this.DeviceLatitude < latiMax &&
+            this.DeviceLongitude > longiMin && this.DeviceLongitude < longiMax {
+        return true
+    }
+    return false
+}
+
+func (this *MBoard) UnmarshalJSON(data pmcommon.JSON) error {
+    var err error
+    var descr pmconfig.BDescr
+    err = json.Unmarshal(data, &descr)
+    this.ObjectName = descr.ObjectName
+    return err
+}
+
+func (this *MBoard) MarshalJSON() (pmcommon.JSON, error) {
+    descr := pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+    //descr.AddAttribute(this.newLongitudeAttrubure())
+    //descr.AddAttribute(this.newLatitudeAttrubure())
+    //descr.AddConfig(this.newTempConfig())
+    //descr.AddMeasure(this.newPowerMeasure())
+    return json.Marshal(descr)
+}
+
 
 //EOF
