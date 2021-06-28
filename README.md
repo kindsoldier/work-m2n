@@ -27,7 +27,7 @@ $ curl   -H "Content-Type: application/json" -d '{ "method":"getBClassDescs"}' h
 
 #### error
 ```
-$ curl   -H "Content-Type: application/json" -d '{ "method":"newBoard", "params": {  }}' http://localhost:8080/rpc
+$ curl -H "Content-Type: application/json" -d '{ "method":"newBoard", "params": {  }}' http://localhost:8080/rpc
 {
     "jsonrpc": "2.0",
     "error": {
@@ -50,9 +50,9 @@ $ curl   -H "Content-Type: application/json" -d '{ "method":"newBoard", "params"
         "objectName": "Foo Board #2"
     }
 }
+```
 
-
-### list short board desription
+### list short board desriptions
 
 ```
 curl -H 'Content-Type: application/json' -X POST -d '{"method": "getBObjectDescs" }' http://localhost:8080/jrpc
@@ -142,7 +142,7 @@ curl -H 'Content-Type: application/json' -X POST -d '{"method": "getBoardDesc", 
 ```
 curl -H 'Content-Type: application/json' -X POST -d '{"method": "setBoardAttribute", "params": { "boardId":"0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "attributeId":"2c6af98c-d507-11eb-affd-68f728724014", "value": 67 } }' http://localhost:8080/jrpc
 ```
-error:
+#### error:
 ```
 {
     "jsonrpc": "2.0",
@@ -154,7 +154,7 @@ error:
 
 ```
 
-ok:
+#### ok:
 ```
 {
     "jsonrpc": "2.0"
@@ -163,6 +163,8 @@ ok:
 
 
 ### bench
+
+select from 10,000 boards
 
 ```
 {"method": "getDevicesInSquare", "params": { "latiMin": 67, "latiMax": 70, "longiMax": 20, "longiMin": 11 } }
