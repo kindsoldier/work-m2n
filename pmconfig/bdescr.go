@@ -29,7 +29,9 @@ func NewCDescr(classId pmcommon.UUID, className string) *CDescr {
 type IBDescr interface {
     AddAttribute(attribute IAttribute) error
     AddConfig(config IConfig) error
-    AddMeasure(config IMeasure) error
+    AddMeasure(measure IMeasure) error
+    AddSetup(setup ISetup) error
+
 }
 
 
@@ -39,6 +41,8 @@ type BDescr struct {
     ClassName   string          `json:"className"`
     ObjectName  string          `json:"objectName"`
 
+    Setups      []ISetup        `json:"setups,omitempty"`
+
     Attributes  []IAttribute    `json:"attributes,omitempty"`
     Configs     []IConfig       `json:"configs,omitempty"`
     Measures    []IMeasure      `json:"measures,omitempty"`
@@ -46,6 +50,7 @@ type BDescr struct {
 
 func NewBDescr(classId pmcommon.UUID, objectId pmcommon.UUID, className string, objectName string) *BDescr {
     var descr BDescr
+    descr.Setups        = make([]ISetup, 0)
     descr.Attributes    = make([]IAttribute, 0)
     descr.Configs       = make([]IConfig, 0)
     descr.Measures      = make([]IMeasure, 0)
@@ -57,6 +62,12 @@ func NewBDescr(classId pmcommon.UUID, objectId pmcommon.UUID, className string, 
     return &descr
 }
 
+
+func (this *BDescr) AddSetup(setup ISetup) error {
+    var err error
+    this.Setups = append(this.Setups, setup)
+    return err
+}
 
 func (this *BDescr) AddAttribute(attribute IAttribute) error {
     var err error

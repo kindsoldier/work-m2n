@@ -147,7 +147,6 @@ func (this *Service) rpcFuncResolver(ctx *gin.Context) {
     return
 }
 
-
 type NewBoardRequest struct {
     BaseRequest
     Params struct {

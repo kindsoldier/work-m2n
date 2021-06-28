@@ -15,6 +15,7 @@ import (
 
 type IBoard interface {
     SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValue) error
+    SetSetup(setupId pmcommon.UUID, value pmconfig.DValue) error
     SetConfig(configId pmcommon.UUID, value pmconfig.DValue) error
     GetObjectId() UUID
     GetClassId() UUID
@@ -35,9 +36,9 @@ const (
     GenericBoardClassId             pmcommon.UUID   = "41165c1a-6cb2-469c-bda3-1efc7eb3cce8"
     GenericBoardClassName           string          = "Foo Board"
 
-    GenericBoardTempConfigId        pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724011"
-    GenericBoardTempConfigName      string          = "Temp"
-    GenericBoardTempConfigType      pmconfig.DType  = pmconfig.DTypeString
+    GenericBoardTempSetupId        pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724011"
+    GenericBoardTempSetupName      string          = "Temp"
+    GenericBoardTempSetupType      pmconfig.DType  = pmconfig.DTypeString
 
     GenericBoardPowerMeasureId      pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724012"
     GenericBoardPowerMeasureName    string          = "Power"
@@ -81,10 +82,16 @@ const (
     ErrorIdNotFound     = "id not found"
 )
 
+
 func (this *MBoard) SetConfig(configId pmcommon.UUID, value pmconfig.DValue) error {
+    return errors.New(ErrorIdNotFound)
+}
+
+
+func (this *MBoard) SetSetup(setupId pmcommon.UUID, value pmconfig.DValue) error {
     var err error
-    switch configId {
-        case GenericBoardTempConfigId:
+    switch setupId {
+        case GenericBoardTempSetupId:
             newValue, ok := value.(int)
             if !ok {
                 return errors.New(ErrorIsNotString)
@@ -94,7 +101,6 @@ func (this *MBoard) SetConfig(configId pmcommon.UUID, value pmconfig.DValue) err
     }
     return errors.New(ErrorIdNotFound)
 }
-
 
 func (this *MBoard) SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValue) error {
     var err error
@@ -122,7 +128,7 @@ func (this *MBoard) GetFullDescr() pmconfig.IBDescr {
     descr = pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     descr.AddAttribute(this.newLongitudeAttrubure())
     descr.AddAttribute(this.newLatitudeAttrubure())
-    descr.AddConfig(this.newTempConfig())
+    descr.AddSetup(this.newTempSetup())
     descr.AddMeasure(this.newPowerMeasure())
     return descr
 }
@@ -133,11 +139,11 @@ func (this *MBoard) GetShortDescr() pmconfig.IBDescr {
     return descr
 }
 
-func (this *MBoard) newTempConfig() pmconfig.IConfig {
-    var config pmconfig.IConfig
-    config = pmconfig.NewMConfig(this.ObjectId, GenericBoardTempConfigId,
-                    GenericBoardTempConfigName, pmconfig.DTypeInteger, this.Temp)
-    return config
+func (this *MBoard) newTempSetup() pmconfig.ISetup {
+    var setup pmconfig.ISetup
+    setup = pmconfig.NewMSetup(this.ObjectId, GenericBoardTempSetupId,
+                    GenericBoardTempSetupName, pmconfig.DTypeInteger, this.Temp)
+    return setup
 }
 
 func (this *MBoard) newPowerMeasure() pmconfig.IMeasure {
@@ -197,7 +203,7 @@ func (this *MBoard) MarshalJSON() (pmcommon.JSON, error) {
     descr := pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     //descr.AddAttribute(this.newLongitudeAttrubure())
     //descr.AddAttribute(this.newLatitudeAttrubure())
-    //descr.AddConfig(this.newTempConfig())
+    //descr.AddConfig(this.newTempSetup())
     //descr.AddMeasure(this.newPowerMeasure())
     return json.Marshal(descr)
 }
