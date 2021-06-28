@@ -6,12 +6,12 @@ package pmmaster
 
 import (
     "errors"
-    "fmt"
+    //"fmt"
     
     "pmapp/pmboard"
     "pmapp/pmconfig"
     "pmapp/pmtool"
-    "pmapp/pmlog"
+    //"pmapp/pmlog"
 )
 
 type UUID = string
@@ -31,25 +31,37 @@ const countOfBoards int = 10000
 
 func (this *BMaster) LoadBoards() error {
     var err error
+
     
-    this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "Foo"))
-    this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987e", "Bar"))
+    //this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "Foo"))
+    //this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987e", "Bar"))
 
-    for i := 0; i < countOfBoards; i++ {
-        name := fmt.Sprintf("Board %d", i)
-        board := pmboard.NewMBoard(pmtool.NewUUID(), name)
-        err = board.SetAttribute(pmboard.GenericBoardLongAttrubuteId, float64(pmtool.GetRandomInt(0, 90)))
-        if err != nil {
-            pmlog.LogDebug(err)
-        } 
-        err = board.SetAttribute(pmboard.GenericBoardLatiAttrubuteId, float64(pmtool.GetRandomInt(0, 90))) 
-        if err != nil {
-            pmlog.LogDebug(err)
-        } 
-
-        this.Boards = append(this.Boards, board)
-    }
+    //for i := 0; i < countOfBoards; i++ {
+    //    name := fmt.Sprintf("Board %d", i)
+    //    board := pmboard.NewMBoard(pmtool.NewUUID(), name)
+    //    err = board.SetAttribute(pmboard.GenericBoardLongAttrubuteId, float64(pmtool.GetRandomInt(0, 90)))
+    //    if err != nil {
+    //        pmlog.LogDebug(err)
+    //    } 
+    //    err = board.SetAttribute(pmboard.GenericBoardLatiAttrubuteId, float64(pmtool.GetRandomInt(0, 90))) 
+    //    if err != nil {
+    //        pmlog.LogDebug(err)
+    //    } 
+    //    this.Boards = append(this.Boards, board)
+    //}
     return err
+}
+
+func (this *BMaster) NewBoard(bClassId UUID, objectName string) (pmconfig.IBDescr, error) {
+    var err error
+    var board pmboard.IBoard
+    var descr pmconfig.IBDescr
+    switch bClassId {
+        case pmboard.GenericBoardClassId:
+            board = pmboard.NewMBoard(pmtool.NewUUID(), objectName)
+            return board.GetShortDescr(), err 
+    }
+    return descr, errors.New("board class not found")
 }
 
 func (this *BMaster) SetBoardAttribute(boardId UUID, attributeId UUID, value pmconfig.DValue) error {
@@ -72,7 +84,7 @@ func (this *BMaster) GetBoardDesc(boardId UUID) (pmconfig.IBDescr, error) {
     return desc, errors.New("board not found")
 }
 
-func (this *BMaster) GetBoardDescs() []pmconfig.IBDescr {
+func (this *BMaster) GetBObjectDescs() []pmconfig.IBDescr {
     descs := make([]pmconfig.IBDescr, 0)
     for _, board := range this.Boards {
         descs = append(descs, board.GetFullDescr())
@@ -88,6 +100,13 @@ func (this *BMaster) GetDevicesInSquare(latiMin, latiMax, longiMin, longiMax flo
             descs = append(descs, board.GetShortDescr())
         }
     }
+    return descs
+}
+
+
+func (this *BMaster) GetBClassDescs() []pmconfig.ICDescr {
+    descs := make([]pmconfig.ICDescr, 0)
+    descs = append(descs, pmconfig.NewCDescr(pmboard.GenericBoardClassId, pmboard.GenericBoardClassName))
     return descs
 }
 

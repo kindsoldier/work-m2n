@@ -77,12 +77,14 @@ func (this *Service) LoadBoards() error {
 }
 
 const (
-    jrpcPath string = "/jrpc"
+    jrpcPath string = "/rpc"
 
-    rpcListBoardDescs       string  = "listBoardDescs"
-    rpcGetDevicesInSquare   string  = "getDevicesInSquare"
+    rpcNewBoard             string  = "newBoard"
+    rpcGetBClassDescs       string  = "getBClassDescs"
+    rpcGetBObjectDescs      string  = "getBObjectDescs"
     rpcGetBoardDesc         string  = "getBoardDesc"
     rpcSetBoardAttribute    string  = "setBoardAttribute"
+    rpcGetDevicesInSquare   string  = "getDevicesInSquare"
 )
 
 func (this *Service) ServeWeb() error {
@@ -118,8 +120,14 @@ func (this *Service) rpcFuncResolver(ctx *gin.Context) {
 
     start := time.Now()
     switch request.Method {
-        case rpcListBoardDescs:
-            responseBytes, _ := this.rpcListBoardDescs(requestBytes)
+        case rpcNewBoard:
+            responseBytes, _ := this.rpcNewBoard(requestBytes)
+            ctx.Data(http.StatusOK, mimeApplicationJson, responseBytes)
+        case rpcGetBClassDescs:
+            responseBytes, _ := this.rpcGetBClassDescs(requestBytes)
+            ctx.Data(http.StatusOK, mimeApplicationJson, responseBytes)
+        case rpcGetBObjectDescs:
+            responseBytes, _ := this.rpcGetBObjectDescs(requestBytes)
             ctx.Data(http.StatusOK, mimeApplicationJson, responseBytes)
         case rpcGetBoardDesc:
             responseBytes, _ := this.rpcGetBoardDesc(requestBytes)
@@ -139,16 +147,57 @@ func (this *Service) rpcFuncResolver(ctx *gin.Context) {
     return
 }
 
-func (this *Service) rpcListBoardDescs(requestBytes []byte) ([]byte, error) {
+
+type NewBoardRequest struct {
+    BaseRequest
+    Params struct {
+        ClassId         UUID       `json:"classId"`
+        ObjectName      string     `json:"objectName"`
+
+    } `json:"params"`
+}
+
+func (this *Service) rpcNewBoard(requestBytes []byte) ([]byte, error) {
+    var err error
+    var request NewBoardRequest
+    err = json.Unmarshal(requestBytes, &request)
+    if err != nil {
+        return this.rpcMakeError(request.Id, errorParseError, err)
+    }
+    params := request.Params
+    boardDesc, err := this.Master.NewBoard(params.ClassId, params.ObjectName)
+    if err != nil {
+        return this.rpcMakeError(request.Id, errorInternalError, err)
+    }
+
+    return this.rpcMakeResult(request.Id, boardDesc)
+}
+
+
+
+func (this *Service) rpcGetBObjectDescs(requestBytes []byte) ([]byte, error) {
     var err error
     var request BaseRequest
     err = json.Unmarshal(requestBytes, &request)
     if err != nil {
         return this.rpcMakeError(request.Id, errorParseError, err)
     }
-    boards := this.Master.GetBoardDescs()
+    boards := this.Master.GetBObjectDescs()
     return this.rpcMakeResult(request.Id, boards)
 }
+
+
+func (this *Service) rpcGetBClassDescs(requestBytes []byte) ([]byte, error) {
+    var err error
+    var request BaseRequest
+    err = json.Unmarshal(requestBytes, &request)
+    if err != nil {
+        return this.rpcMakeError(request.Id, errorParseError, err)
+    }
+    boards := this.Master.GetBClassDescs()
+    return this.rpcMakeResult(request.Id, boards)
+}
+
 
 
 type GetBoardDescRequest struct {
