@@ -143,7 +143,7 @@ func (this *Service) rpcFuncResolver(ctx *gin.Context) {
             ctx.Data(http.StatusOK, mimeApplicationJson, response)
     }
     elapsed := time.Since(start)
-    pmlog.LogDebug(request.Method, elapsed) 
+    pmlog.LogDebug(ctx.Request.Proto, ctx.Request.RemoteAddr, ctx.Request.ContentLength, request.Method, elapsed) 
     return
 }
 
