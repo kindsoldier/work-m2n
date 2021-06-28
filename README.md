@@ -10,10 +10,54 @@
 `board measure` mean `some measure of remote device parameter`
 
 
+### list board classes
+
+```
+$ curl   -H "Content-Type: application/json" -d '{ "method":"getBClassDescs"}' http://localhost:8080/rpc
+{
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "classId": "41165c1a-6cb2-469c-bda3-1efc7eb3cce8",
+            "className": "Foo Board"
+        }
+    ]
+}
+```
+
+### create new board object
+
+#### error
+```
+$ curl   -H "Content-Type: application/json" -d '{ "method":"newBoard", "params": {  }}' http://localhost:8080/rpc
+{
+    "jsonrpc": "2.0",
+    "error": {
+        "code": -32603,
+        "message": "board class not found"
+    }
+}
+```
+
+#### ok
+
+```
+$ curl   -H "Content-Type: application/json" -d '{ "method":"newBoard", "params": { "classId":"41165c1a-6cb2-469c-bda3-1efc7eb3cce8", "objectName":"Foo Board #2"  }}' http://localhost:8080/rpc
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "objectId": "cc31d5d0-6669-4624-8d93-aea3d49971c2",
+        "classId": "41165c1a-6cb2-469c-bda3-1efc7eb3cce8",
+        "className": "Foo Board",
+        "objectName": "Foo Board #2"
+    }
+}
+
+
 ### list short board desription
 
 ```
-curl -H 'Content-Type: application/json' -X POST -d '{"method": "listBoardDescs" }' http://localhost:8080/jrpc
+curl -H 'Content-Type: application/json' -X POST -d '{"method": "getBObjectDescs" }' http://localhost:8080/jrpc
 
 {
     "jsonrpc": "2.0",
