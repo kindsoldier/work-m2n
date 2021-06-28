@@ -1,13 +1,11 @@
 ## work-i2m, rapid but good working prototype
 
 
-`board` mean  `software control board of remote device`
-
-`board attribute` mean `the board attribute`, not for remote device
-
-`board config` mean `the remote device setting`
-
-`board measure` mean `some measure of remote device parameter`
+- `board` mean  `software control board of remote device`
+- `board setup` mean `the remote device setting`
+- `board attribute` mean `the board attribute`, not for remote device
+- `board config` mean `the local board setting`
+- `board measure` mean `some measure of remote device parameter`
 
 
 ### list board classes
