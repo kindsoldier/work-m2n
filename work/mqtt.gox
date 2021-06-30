@@ -11,9 +11,9 @@ import (
     "net/url"
     "fmt"
 
-    "github.com/eclipse/paho.mqtt.golang"
+    //"github.com/eclipse/paho.mqtt.golang"
 
-    "pmapp/pmlog"
+    //"pmapp/pmlog"
 )
 
 
