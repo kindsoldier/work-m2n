@@ -10,10 +10,10 @@ import (
     "path/filepath"
     "encoding/json"
 
-    //"github.com/jmoiron/sqlx"
-    //_  "github.com/mattn/go-sqlite3"
+    "github.com/jmoiron/sqlx"
+    _  "github.com/mattn/go-sqlite3"
     
-    //"pmapp/pmdrivers"
+    "pmapp/pmdrivers"
     //"pmapp/pmlog"
 )
 
@@ -216,7 +216,22 @@ func (this *DStore) loadDevices() ([]pmdrivers.IDevice, error) {
 }
 
 
-//*******************************************************************************//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
