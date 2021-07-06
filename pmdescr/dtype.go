@@ -4,7 +4,7 @@
  * Copyright 2021 Oleg Borodin  <borodin@unix7.org>
  */
 
-package pmconfig
+package pmdescr
 
 type DType  string
 type DValue interface{}

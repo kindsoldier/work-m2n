@@ -2,7 +2,7 @@
  * Copyright 2021 Oleg Borodin  <borodin@unix7.org>
  */
 
-package pmconfig
+package pmdescr
 
 import (
     "encoding/json"
@@ -10,38 +10,37 @@ import (
     "pmapp/pmcommon"
 )
 
-type IConfig interface {
+type IAttribute interface {
 
 }
 
+type UUID   = pmcommon.UUID
+type JSON   = pmcommon.JSON
 
-
-type MConfig struct {
+type MAttribute struct {
     OwnerId     pmcommon.UUID   `json:"ownerId"`
-    ConfigId    pmcommon.UUID   `json:"configId"`
+    AttributeId pmcommon.UUID   `json:"attributeId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json:"value"`
 }
 
-func NewMConfig(ownerId pmcommon.UUID, configId pmcommon.UUID, name string, dType DType, value DValue) *MConfig {
-    var config MConfig
+func NewMAttribute(ownerId UUID, attributeId UUID, name string, dType DType, value DValue) *MAttribute {
+    var config MAttribute
     config.OwnerId     = ownerId
-    config.ConfigId    = configId
+    config.AttributeId = attributeId
     config.Name        = name
     config.Type        = dType
     config.Value       = value
     return &config
 }
 
-func (this *MConfig) UnmarshalJSON(data pmcommon.JSON) error {
+func (this *MAttribute) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MConfig) MarshalJSON() (pmcommon.JSON, error) {
+func (this *MAttribute) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
-
-//EOF

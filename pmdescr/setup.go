@@ -2,19 +2,18 @@
  * Copyright 2021 Oleg Borodin  <borodin@unix7.org>
  */
 
-package pmconfig
+package pmdescr
 
 import (
     "encoding/json"
-    "pmapp/pmcommon"
 )
 
 type ISetup interface {
 }
 
 type MSetup struct {
-    OwnerId     pmcommon.UUID   `json:"ownerId"`
-    SetupId     pmcommon.UUID   `json:"setupId"`
+    OwnerId     UUID            `json:"ownerId"`
+    SetupId     UUID            `json:"setupId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json:"value"`
@@ -22,7 +21,7 @@ type MSetup struct {
 
 }
 
-func NewMSetup(ownerId pmcommon.UUID, setupId pmcommon.UUID, name string, dType DType, value DValue) *MSetup {
+func NewMSetup(ownerId UUID, setupId UUID, name string, dType DType, value DValue) *MSetup {
     var setup MSetup
     setup.OwnerId     = ownerId
     setup.SetupId     = setupId
@@ -32,13 +31,13 @@ func NewMSetup(ownerId pmcommon.UUID, setupId pmcommon.UUID, name string, dType 
     return &setup
 }
 
-func (this *MSetup) UnmarshalJSON(data pmcommon.JSON) error {
+func (this *MSetup) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MSetup) MarshalJSON() (pmcommon.JSON, error) {
+func (this *MSetup) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
 

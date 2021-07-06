@@ -8,29 +8,28 @@ import (
     "encoding/json"
     "errors"
 
-    "pmapp/pmconfig"
+    "pmapp/pmdescr"
     "pmapp/pmcommon"
 )
 
 
 type IBoard interface {
-    SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValue) error
-    SetSetup(setupId pmcommon.UUID, value pmconfig.DValue) error
-    SetConfig(configId pmcommon.UUID, value pmconfig.DValue) error
+    SetAttribute(attributeId pmcommon.UUID, value pmdescr.DValue) error
+    SetSetup(setupId pmcommon.UUID, value pmdescr.DValue) error
+    SetConfig(configId pmcommon.UUID, value pmdescr.DValue) error
     GetObjectId() UUID
     GetClassId() UUID
     GetObjectName() string
     GetClassName() string
-    GetFullDescr() pmconfig.IBDescr
-    GetShortDescr() pmconfig.IBDescr
+    GetFullDescr() pmdescr.IBDescr
+    GetShortDescr() pmdescr.IBDescr
 
     IsSquared(latiMin, latiMax, longiMin, longiMax float64) bool
 }
 
-type UUID = string
-type JSON = []byte
-
-type DType = pmconfig.DType
+type UUID   = pmcommon.UUID
+type JSON   = pmcommon.JSON
+type DType  = pmdescr.DType
 
 const (
     GenericBoardClassId             pmcommon.UUID   = "41165c1a-6cb2-469c-bda3-1efc7eb3cce8"
@@ -38,19 +37,19 @@ const (
 
     GenericBoardTempSetupId        pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724011"
     GenericBoardTempSetupName      string          = "Temp"
-    GenericBoardTempSetupType      pmconfig.DType  = pmconfig.DTypeString
+    GenericBoardTempSetupType      pmdescr.DType  = pmdescr.DTypeString
 
     GenericBoardPowerMeasureId      pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724012"
     GenericBoardPowerMeasureName    string          = "Power"
-    GenericBoardPowerMeasureType    pmconfig.DType  = pmconfig.DTypeInteger
+    GenericBoardPowerMeasureType    pmdescr.DType  = pmdescr.DTypeInteger
 
     GenericBoardLongAttrubuteId     pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724014"
     GenericBoardLongAttrubuteName   string          = "Longitude"
-    GenericBoardLongAttrubuteType   pmconfig.DType  = pmconfig.DTypeNumeric
+    GenericBoardLongAttrubuteType   pmdescr.DType  = pmdescr.DTypeNumeric
 
     GenericBoardLatiAttrubuteId     pmcommon.UUID   = "2c6af98c-d507-11eb-affd-68f728724016"
     GenericBoardLatiAttrubuteName   string          = "Latitude"
-    GenericBoardLatiAttrubuteType   pmconfig.DType  = pmconfig.DTypeNumeric
+    GenericBoardLatiAttrubuteType   pmdescr.DType  = pmdescr.DTypeNumeric
 )
 
 type MBoard struct {
@@ -83,12 +82,12 @@ const (
 )
 
 
-func (this *MBoard) SetConfig(configId pmcommon.UUID, value pmconfig.DValue) error {
+func (this *MBoard) SetConfig(configId pmcommon.UUID, value pmdescr.DValue) error {
     return errors.New(ErrorIdNotFound)
 }
 
 
-func (this *MBoard) SetSetup(setupId pmcommon.UUID, value pmconfig.DValue) error {
+func (this *MBoard) SetSetup(setupId pmcommon.UUID, value pmdescr.DValue) error {
     var err error
     switch setupId {
         case GenericBoardTempSetupId:
@@ -102,7 +101,7 @@ func (this *MBoard) SetSetup(setupId pmcommon.UUID, value pmconfig.DValue) error
     return errors.New(ErrorIdNotFound)
 }
 
-func (this *MBoard) SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValue) error {
+func (this *MBoard) SetAttribute(attributeId pmcommon.UUID, value pmdescr.DValue) error {
     var err error
     switch attributeId {
         case GenericBoardLatiAttrubuteId:
@@ -123,9 +122,9 @@ func (this *MBoard) SetAttribute(attributeId pmcommon.UUID, value pmconfig.DValu
     return errors.New(ErrorIdNotFound)
 }
 
-func (this *MBoard) GetFullDescr() pmconfig.IBDescr {
-    var descr pmconfig.IBDescr
-    descr = pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+func (this *MBoard) GetFullDescr() pmdescr.IBDescr {
+    var descr pmdescr.IBDescr
+    descr = pmdescr.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     descr.AddAttribute(this.newLongitudeAttrubure())
     descr.AddAttribute(this.newLatitudeAttrubure())
     descr.AddSetup(this.newTempSetup())
@@ -133,37 +132,37 @@ func (this *MBoard) GetFullDescr() pmconfig.IBDescr {
     return descr
 }
 
-func (this *MBoard) GetShortDescr() pmconfig.IBDescr {
-    var descr pmconfig.IBDescr
-    descr = pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+func (this *MBoard) GetShortDescr() pmdescr.IBDescr {
+    var descr pmdescr.IBDescr
+    descr = pmdescr.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     return descr
 }
 
-func (this *MBoard) newTempSetup() pmconfig.ISetup {
-    var setup pmconfig.ISetup
-    setup = pmconfig.NewMSetup(this.ObjectId, GenericBoardTempSetupId,
-                    GenericBoardTempSetupName, pmconfig.DTypeInteger, this.Temp)
+func (this *MBoard) newTempSetup() pmdescr.ISetup {
+    var setup pmdescr.ISetup
+    setup = pmdescr.NewMSetup(this.ObjectId, GenericBoardTempSetupId,
+                    GenericBoardTempSetupName, pmdescr.DTypeInteger, this.Temp)
     return setup
 }
 
-func (this *MBoard) newPowerMeasure() pmconfig.IMeasure {
-    var config pmconfig.IConfig
-    config = pmconfig.NewMMeasure(this.ObjectId, GenericBoardPowerMeasureId,
-                    GenericBoardPowerMeasureName, pmconfig.DTypeInteger, this.Power)
+func (this *MBoard) newPowerMeasure() pmdescr.IMeasure {
+    var config pmdescr.IConfig
+    config = pmdescr.NewMMeasure(this.ObjectId, GenericBoardPowerMeasureId,
+                    GenericBoardPowerMeasureName, pmdescr.DTypeInteger, this.Power)
     return config
 }
 
-func (this *MBoard) newLatitudeAttrubure() pmconfig.IAttribute {
-    var attribute pmconfig.IAttribute
-    attribute = pmconfig.NewMAttribute(this.ObjectId, GenericBoardLatiAttrubuteId,
-                    GenericBoardLatiAttrubuteName, pmconfig.DTypeNumeric, this.DeviceLatitude)
+func (this *MBoard) newLatitudeAttrubure() pmdescr.IAttribute {
+    var attribute pmdescr.IAttribute
+    attribute = pmdescr.NewMAttribute(this.ObjectId, GenericBoardLatiAttrubuteId,
+                    GenericBoardLatiAttrubuteName, pmdescr.DTypeNumeric, this.DeviceLatitude)
     return attribute
 }
 
-func (this *MBoard) newLongitudeAttrubure() pmconfig.IAttribute {
-    var attribute pmconfig.IAttribute
-    attribute = pmconfig.NewMAttribute(this.ObjectId, GenericBoardLongAttrubuteId,
-                    GenericBoardLongAttrubuteName, pmconfig.DTypeNumeric, this.DeviceLongitude)
+func (this *MBoard) newLongitudeAttrubure() pmdescr.IAttribute {
+    var attribute pmdescr.IAttribute
+    attribute = pmdescr.NewMAttribute(this.ObjectId, GenericBoardLongAttrubuteId,
+                    GenericBoardLongAttrubuteName, pmdescr.DTypeNumeric, this.DeviceLongitude)
     return attribute
 }
 
@@ -193,14 +192,14 @@ func (this *MBoard) IsSquared(latiMin, latiMax, longiMin, longiMax float64) bool
 
 func (this *MBoard) UnmarshalJSON(data pmcommon.JSON) error {
     var err error
-    var descr pmconfig.BDescr
+    var descr pmdescr.BDescr
     err = json.Unmarshal(data, &descr)
     this.ObjectName = descr.ObjectName
     return err
 }
 
 func (this *MBoard) MarshalJSON() (pmcommon.JSON, error) {
-    descr := pmconfig.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
+    descr := pmdescr.NewBDescr(this.ClassId, this.ObjectId, this.ClassName, this.ObjectName)
     //descr.AddAttribute(this.newLongitudeAttrubure())
     //descr.AddAttribute(this.newLatitudeAttrubure())
     //descr.AddConfig(this.newTempSetup())

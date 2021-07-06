@@ -3,23 +3,19 @@
  * Copyright 2021 Oleg Borodin  <borodin@unix7.org>
  */
 
-package pmconfig
-
-
-import (
-    "pmapp/pmcommon"
-)
-
+package pmdescr
 
 type ICDescr interface {
 }
 
+
+
 type CDescr struct {
-    ClassId     pmcommon.UUID   `json:"classId"`
+    ClassId     UUID   `json:"classId"`
     ClassName   string          `json:"className"`
 }
 
-func NewCDescr(classId pmcommon.UUID, className string) *CDescr {
+func NewCDescr(classId UUID, className string) *CDescr {
     var descr CDescr
     descr.ClassId       = classId
     descr.ClassName     = className
@@ -36,8 +32,8 @@ type IBDescr interface {
 
 
 type BDescr struct {
-    ObjectId    pmcommon.UUID   `json:"objectId"`
-    ClassId     pmcommon.UUID   `json:"classId"`
+    ObjectId    UUID   `json:"objectId"`
+    ClassId     UUID   `json:"classId"`
     ClassName   string          `json:"className"`
     ObjectName  string          `json:"objectName"`
 
@@ -48,7 +44,7 @@ type BDescr struct {
     Measures    []IMeasure      `json:"measures,omitempty"`
 }
 
-func NewBDescr(classId pmcommon.UUID, objectId pmcommon.UUID, className string, objectName string) *BDescr {
+func NewBDescr(classId UUID, objectId UUID, className string, objectName string) *BDescr {
     var descr BDescr
     descr.Setups        = make([]ISetup, 0)
     descr.Attributes    = make([]IAttribute, 0)

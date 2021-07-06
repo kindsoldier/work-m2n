@@ -9,7 +9,7 @@ import (
     //"fmt"
     
     "pmapp/pmboard"
-    "pmapp/pmconfig"
+    "pmapp/pmdescr"
     "pmapp/pmtool"
     //"pmapp/pmlog"
 )
@@ -31,7 +31,6 @@ const countOfBoards int = 10000
 
 func (this *BMaster) LoadBoards() error {
     var err error
-
     
     //this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "Foo"))
     //this.Boards = append(this.Boards, pmboard.NewMBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987e", "Bar"))
@@ -52,10 +51,10 @@ func (this *BMaster) LoadBoards() error {
     return err
 }
 
-func (this *BMaster) NewBoard(bClassId UUID, objectName string) (pmconfig.IBDescr, error) {
+func (this *BMaster) NewBoard(bClassId UUID, objectName string) (pmdescr.IBDescr, error) {
     var err error
     var board pmboard.IBoard
-    var descr pmconfig.IBDescr
+    var descr pmdescr.IBDescr
     switch bClassId {
         case pmboard.GenericBoardClassId:
             board = pmboard.NewMBoard(pmtool.NewUUID(), objectName)
@@ -64,7 +63,7 @@ func (this *BMaster) NewBoard(bClassId UUID, objectName string) (pmconfig.IBDesc
     return descr, errors.New("board class not found")
 }
 
-func (this *BMaster) SetBoardAttribute(boardId UUID, attributeId UUID, value pmconfig.DValue) error {
+func (this *BMaster) SetBoardAttribute(boardId UUID, attributeId UUID, value pmdescr.DValue) error {
     for _, board := range this.Boards {
         if boardId == board.GetObjectId() {
             return board.SetAttribute(attributeId, value)
@@ -73,8 +72,8 @@ func (this *BMaster) SetBoardAttribute(boardId UUID, attributeId UUID, value pmc
     return errors.New("attribute not found")
 }
 
-func (this *BMaster) GetBoardDesc(boardId UUID) (pmconfig.IBDescr, error) {
-    var desc pmconfig.IBDescr
+func (this *BMaster) GetBoardDesc(boardId UUID) (pmdescr.IBDescr, error) {
+    var desc pmdescr.IBDescr
     var err error
     for _, board := range this.Boards {
         if boardId == board.GetObjectId() {
@@ -84,8 +83,8 @@ func (this *BMaster) GetBoardDesc(boardId UUID) (pmconfig.IBDescr, error) {
     return desc, errors.New("board not found")
 }
 
-func (this *BMaster) GetBObjectDescs() []pmconfig.IBDescr {
-    descs := make([]pmconfig.IBDescr, 0)
+func (this *BMaster) GetBObjectDescs() []pmdescr.IBDescr {
+    descs := make([]pmdescr.IBDescr, 0)
     for _, board := range this.Boards {
         descs = append(descs, board.GetFullDescr())
     }
@@ -93,8 +92,8 @@ func (this *BMaster) GetBObjectDescs() []pmconfig.IBDescr {
 }
 
 
-func (this *BMaster) GetDevicesInSquare(latiMin, latiMax, longiMin, longiMax float64) []pmconfig.IBDescr {
-    descs := make([]pmconfig.IBDescr, 0)
+func (this *BMaster) GetDevicesInSquare(latiMin, latiMax, longiMin, longiMax float64) []pmdescr.IBDescr {
+    descs := make([]pmdescr.IBDescr, 0)
     for _, board := range this.Boards {
         if board.IsSquared(latiMin, latiMax, longiMin, longiMax) {
             descs = append(descs, board.GetShortDescr())
@@ -104,9 +103,9 @@ func (this *BMaster) GetDevicesInSquare(latiMin, latiMax, longiMin, longiMax flo
 }
 
 
-func (this *BMaster) GetBClassDescs() []pmconfig.ICDescr {
-    descs := make([]pmconfig.ICDescr, 0)
-    descs = append(descs, pmconfig.NewCDescr(pmboard.GenericBoardClassId, pmboard.GenericBoardClassName))
+func (this *BMaster) GetBClassDescs() []pmdescr.ICDescr {
+    descs := make([]pmdescr.ICDescr, 0)
+    descs = append(descs, pmdescr.NewCDescr(pmboard.GenericBoardClassId, pmboard.GenericBoardClassName))
     return descs
 }
 

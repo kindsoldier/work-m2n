@@ -18,7 +18,7 @@ import (
 
     "pmapp/pmmaster"
     "pmapp/pmcommon"
-    "pmapp/pmconfig"
+    "pmapp/pmdescr"
     "pmapp/pmlog"
 )
 
@@ -225,7 +225,7 @@ type SetBoardArrributeRequest struct {
     Params struct {
         BoardId         pmcommon.UUID       `json:"boardId"`
         AttributeId     pmcommon.UUID       `json:"attributeId"`
-        Value           pmconfig.DValue     `json:"value"`
+        Value           pmdescr.DValue     `json:"value"`
     } `json:"params"`
 }
 func (this *Service) rpcSetBoardAttribute(requestBytes []byte) ([]byte, error) {
@@ -309,7 +309,6 @@ func (this *Service) rpcMakeOk(reqId string) ([]byte, error) {
 func (this *Service) SendNoRoute(ctx *gin.Context) {
     response, _ := this.rpcMakeError(emptyRequestId, errorMethodNotFound, errors.New("route not found"))
     ctx.Data(http.StatusOK, mimeApplicationJson, response)
-
 }
 
 func main() {

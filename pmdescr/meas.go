@@ -2,27 +2,24 @@
  * Copyright 2021 Oleg Borodin  <borodin@unix7.org>
  */
 
-package pmconfig
+package pmdescr
 
 import (
     "encoding/json"
-
-    "pmapp/pmcommon"
 )
 
 type IMeasure interface {
-
 }
 
 type MMeasure struct {
-    OwnerId     pmcommon.UUID   `json:"ownerId"`
-    MeasureId   pmcommon.UUID   `json:"measureId"`
+    OwnerId     UUID            `json:"ownerId"`
+    MeasureId   UUID            `json:"measureId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json""value"`
 }
 
-func NewMMeasure(ownerId pmcommon.UUID, measureId pmcommon.UUID, name string, dType DType, value DValue) *MMeasure {
+func NewMMeasure(ownerId UUID, measureId UUID, name string, dType DType, value DValue) *MMeasure {
     var config MMeasure
     config.OwnerId     = ownerId
     config.MeasureId   = measureId
@@ -32,13 +29,13 @@ func NewMMeasure(ownerId pmcommon.UUID, measureId pmcommon.UUID, name string, dT
     return &config
 }
 
-func (this *MMeasure) UnmarshalJSON(data pmcommon.JSON) error {
+func (this *MMeasure) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MMeasure) MarshalJSON() (pmcommon.JSON, error) {
+func (this *MMeasure) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
 
