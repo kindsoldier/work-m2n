@@ -8,23 +8,35 @@ package pmnode
 import (
     "pmapp/pmcommon"
     "pmapp/pmproto"
+    "pmapp/pmdescr"
 )
+
+type UUID   = pmcommon.UUID
+type JSON   = pmcommon.JSON
+type DType  = pmdescr.DType
+type Packet = pmproto.Packet
+type PType  = pmproto.PType
 
 type INode interface {
     UnsetDown() error
     UnsetUp() error
 
+    GetSendTypes() []PType 
+    GetRecvTypes() []PType 
+
     SetDown(node INode) error
     SetUp(node INode) error
 
-    Send(packet pmproto.BPacket) error
-    Recv(packet pmproto.BPacket) error
+    Send(packet *Packet) error
+    Recv(packet *Packet) error
 }
 
 type BaseNode struct {
     Downlink    INode
     Uplink      INode
-    ObjectId    pmcommon.UUID
+    ObjectId    UUID
+    SendPTypes  []PType
+    RecvPTypes  []PType
 }
 
 func (this *BaseNode) SetDown(node INode) error {
@@ -51,11 +63,7 @@ func (this *BaseNode) UnsetUp() error {
     return err
 }
 
-func (this *BaseNode) GetObjectId() pmcommon.UUID {
-    return this.ObjectId
-}
-
-func (this *BaseNode) Send(packet pmproto.BPacket) error {
+func (this *BaseNode) Send(packet *Packet) error {
     var err error
     if this.Downlink != nil {
         this.Downlink.Send(packet)
@@ -63,10 +71,11 @@ func (this *BaseNode) Send(packet pmproto.BPacket) error {
     return err
 }
 
-func (this *BaseNode) Recv(packet pmproto.BPacket) error {
+func (this *BaseNode) Recv(packet *Packet) error {
     var err error
     if this.Uplink != nil {
         this.Uplink.Recv(packet)
     }
     return err
 }
+//EOF

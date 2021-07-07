@@ -8,7 +8,7 @@ import (
     //"errors"
     "encoding/json"
     //"bytes"
-    "fmt"
+    //"fmt"
     //"net/http"
     //"os"
     //"io/ioutil"
@@ -19,7 +19,10 @@ import (
     //"pmapp/pmcommon"
     //"pmapp/pmdescr"
     "pmapp/pmlog"
-    "pmapp/pmtool"
+    //"pmapp/pmtool"
+    "pmapp/pmtrans"
+    "pmapp/pmlink"
+    "pmapp/pmproto"
 )
 
 func main() {
@@ -52,26 +55,40 @@ func (this *BaseMaster) Run() error {
     //this.Boards = append(this.Boards, pmboard.NewBaseBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "Foo"))
     //this.Boards = append(this.Boards, pmboard.NewBaseBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987e", "Bar"))
 
-    for i := 0; i < countOfBoards; i++ {
-        name := fmt.Sprintf("Board #%d", i)
-        board := pmboard.NewBaseBoard(pmtool.NewUUID(), name)
-        
-        err = board.SetAttribute(pmboard.BaseBoardLongAttrubuteId, float64(pmtool.GetRandomInt(0, 90)))
-        if err != nil {
-            pmlog.LogDebug(err)
-        } 
-        err = board.SetAttribute(pmboard.BaseBoardLatiAttrubuteId, float64(pmtool.GetRandomInt(0, 90))) 
-        if err != nil {
-            pmlog.LogDebug(err)
-        } 
-        this.Boards = append(this.Boards, board)
-    }
+    //for i := 0; i < countOfBoards; i++ {
+    //    name := fmt.Sprintf("Board #%d", i)
+    //    board := pmboard.NewBaseBoard(pmtool.NewUUID(), name)
+    //    
+    //    err = board.SetAttribute(pmboard.BaseBoardLongAttrubuteId, float64(pmtool.GetRandomInt(0, 90)))
+    //    if err != nil {
+    //        pmlog.LogDebug(err)
+    //    } 
+    //    err = board.SetAttribute(pmboard.BaseBoardLatiAttrubuteId, float64(pmtool.GetRandomInt(0, 90))) 
+    //    if err != nil {
+    //        pmlog.LogDebug(err)
+    //    } 
+    //    this.Boards = append(this.Boards, board)
+    //}
 
-    jBoardSD, _ := json.MarshalIndent(this.Boards[0].GetShortDescr(), "", "    ")
-    pmlog.LogDebug(string(jBoardSD))
+    //jBoardSD, _ := json.MarshalIndent(this.Boards[0].GetShortDescr(), "", "    ")
+    //pmlog.LogDebug(string(jBoardSD))
 
-    jBoardFD, _ := json.MarshalIndent(this.Boards[0].GetFullDescr(), "", "    ")
-    pmlog.LogDebug(string(jBoardFD))
+    //jBoardFD, _ := json.MarshalIndent(this.Boards[0].GetFullDescr(), "", "    ")
+    //pmlog.LogDebug(string(jBoardFD))
+
+
+    board := pmboard.NewBaseBoard("0e3d4edc-4ded-4d39-bfad-d1cf900c987d", "Board #1")
+    jBoardDescr, _ := json.Marshal(board.GetShortDescr())
+    pmlog.LogDebug(string(jBoardDescr))
+
+    trans := pmtrans.NewBaseTrans("ba8d2336-60aa-43ea-bbc4-297e51f18ecd", "Trans #1")
+
+    link := pmlink.NewBaseLink()
+    link.Setup(board, trans)
+    link.Link()
+
+    data := pmproto.NewPacket(pmproto.PTypeMQTT, nil, []byte("foobar"))
+    board.Send(data)
 
     return err
 }

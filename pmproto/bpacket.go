@@ -8,14 +8,14 @@ package pmproto
 type PType      int
 const PTypeMQTT PType = 10
 
-type BPacket struct {
+type Packet struct {
     PacketType  PType
     Subject     []byte
     Payload     []byte
 }
 
-func NewBPacket(pType PType, subject []byte, payload []byte) *BPacket {
-    var packet BPacket
+func NewPacket(pType PType, subject []byte, payload []byte) *Packet {
+    var packet Packet
     packet.PacketType   = pType
     packet.Subject      = subject
     packet.Payload      = payload
