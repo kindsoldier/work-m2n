@@ -8,10 +8,10 @@ import (
     "encoding/json"
 )
 
-type IMeasure interface {
+type IMeasureDescr interface {
 }
 
-type MMeasure struct {
+type MeasureDescr struct {
     OwnerId     UUID            `json:"ownerId"`
     MeasureId   UUID            `json:"measureId"`
     Name        string          `json:"name"`
@@ -19,8 +19,8 @@ type MMeasure struct {
     Value       DValue          `json""value"`
 }
 
-func NewMMeasure(ownerId UUID, measureId UUID, name string, dType DType, value DValue) *MMeasure {
-    var config MMeasure
+func NewMeasureDescr(ownerId UUID, measureId UUID, name string, dType DType, value DValue) *MeasureDescr {
+    var config MeasureDescr
     config.OwnerId     = ownerId
     config.MeasureId   = measureId
     config.Name        = name
@@ -29,13 +29,13 @@ func NewMMeasure(ownerId UUID, measureId UUID, name string, dType DType, value D
     return &config
 }
 
-func (this *MMeasure) UnmarshalJSON(data JSON) error {
+func (this *MeasureDescr) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MMeasure) MarshalJSON() (JSON, error) {
+func (this *MeasureDescr) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
 

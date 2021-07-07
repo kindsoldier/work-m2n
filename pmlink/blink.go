@@ -15,17 +15,17 @@ type ILink interface {
     Unlink() error
 } 
 
-type Link struct {
+type BaseLink struct {
     up      pmnode.INode
     down    pmnode.INode
 }
 
-func NewLink() *Link {
-    var link Link
+func NewBaseLink() *BaseLink {
+    var link BaseLink
     return &link
 }
 
-func (this *Link) Setup(up pmnode.INode, down pmnode.INode) error {
+func (this *BaseLink) Setup(up pmnode.INode, down pmnode.INode) error {
     var err error
     this.up = up
     this.down = down
@@ -33,14 +33,14 @@ func (this *Link) Setup(up pmnode.INode, down pmnode.INode) error {
 }
 
 
-func (this *Link) Link() error {
+func (this *BaseLink) Link() error {
     var err error
     this.up.SetDown(this.down)
     this.down.SetUp(this.up)
     return err
 }
 
-func (this *Link) Unlink() error {
+func (this *BaseLink) Unlink() error {
     var err error
     this.up.SetDown(nil)
     this.down.SetUp(nil)

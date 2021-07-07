@@ -21,41 +21,41 @@ type INode interface {
     Recv(packet pmproto.BPacket) error
 }
 
-type BNode struct {
+type BaseNode struct {
     Downlink    INode
     Uplink      INode
     ObjectId    pmcommon.UUID
 }
 
-func (this *BNode) SetDown(node INode) error {
+func (this *BaseNode) SetDown(node INode) error {
     var err error
     this.Downlink = node
     return err
 }
 
-func (this *BNode) SetUp(node INode) error {
+func (this *BaseNode) SetUp(node INode) error {
     var err error
     this.Uplink = node
     return err
 }
 
-func (this *BNode) UnsetDown() error {
+func (this *BaseNode) UnsetDown() error {
     var err error
     this.Downlink = nil
     return err
 }
 
-func (this *BNode) UnsetUp() error {
+func (this *BaseNode) UnsetUp() error {
     var err error
     this.Uplink = nil
     return err
 }
 
-func (this *BNode) GetObjectId() pmcommon.UUID {
+func (this *BaseNode) GetObjectId() pmcommon.UUID {
     return this.ObjectId
 }
 
-func (this *BNode) Send(packet pmproto.BPacket) error {
+func (this *BaseNode) Send(packet pmproto.BPacket) error {
     var err error
     if this.Downlink != nil {
         this.Downlink.Send(packet)
@@ -63,7 +63,7 @@ func (this *BNode) Send(packet pmproto.BPacket) error {
     return err
 }
 
-func (this *BNode) Recv(packet pmproto.BPacket) error {
+func (this *BaseNode) Recv(packet pmproto.BPacket) error {
     var err error
     if this.Uplink != nil {
         this.Uplink.Recv(packet)

@@ -11,12 +11,12 @@ import (
 type ITrans interface {
 }
 
-type BTrans struct {
-    pmnode.BNode
+type BaseTrans struct {
+    pmnode.BaseNode
 }
 
-func NewBTrans() *BTrans {
-    var trans BTrans
+func NewBaseTrans() *BaseTrans {
+    var trans BaseTrans
     return &trans
 }
 

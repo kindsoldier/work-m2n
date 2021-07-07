@@ -8,10 +8,10 @@ import (
     "encoding/json"
 )
 
-type ISetup interface {
+type ISetupDescr interface {
 }
 
-type MSetup struct {
+type SetupDescr struct {
     OwnerId     UUID            `json:"ownerId"`
     SetupId     UUID            `json:"setupId"`
     Name        string          `json:"name"`
@@ -21,8 +21,8 @@ type MSetup struct {
 
 }
 
-func NewMSetup(ownerId UUID, setupId UUID, name string, dType DType, value DValue) *MSetup {
-    var setup MSetup
+func NewSetupDescr(ownerId UUID, setupId UUID, name string, dType DType, value DValue) *SetupDescr {
+    var setup SetupDescr
     setup.OwnerId     = ownerId
     setup.SetupId     = setupId
     setup.Name        = name
@@ -31,13 +31,13 @@ func NewMSetup(ownerId UUID, setupId UUID, name string, dType DType, value DValu
     return &setup
 }
 
-func (this *MSetup) UnmarshalJSON(data JSON) error {
+func (this *SetupDescr) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MSetup) MarshalJSON() (JSON, error) {
+func (this *SetupDescr) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
 

@@ -6,27 +6,25 @@ package pmdescr
 
 import (
     "encoding/json"
-
     "pmapp/pmcommon"
 )
 
-type IAttribute interface {
-
+type IAttrDescr interface {
 }
 
 type UUID   = pmcommon.UUID
 type JSON   = pmcommon.JSON
 
-type MAttribute struct {
-    OwnerId     pmcommon.UUID   `json:"ownerId"`
-    AttributeId pmcommon.UUID   `json:"attributeId"`
+type AttrDescr struct {
+    OwnerId     UUID            `json:"ownerId"`
+    AttributeId UUID            `json:"attributeId"`
     Name        string          `json:"name"`
     Type        DType           `json:"type"`
     Value       DValue          `json:"value"`
 }
 
-func NewMAttribute(ownerId UUID, attributeId UUID, name string, dType DType, value DValue) *MAttribute {
-    var config MAttribute
+func NewAttrDescr(ownerId UUID, attributeId UUID, name string, dType DType, value DValue) *AttrDescr {
+    var config AttrDescr
     config.OwnerId     = ownerId
     config.AttributeId = attributeId
     config.Name        = name
@@ -35,12 +33,12 @@ func NewMAttribute(ownerId UUID, attributeId UUID, name string, dType DType, val
     return &config
 }
 
-func (this *MAttribute) UnmarshalJSON(data JSON) error {
+func (this *AttrDescr) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MAttribute) MarshalJSON() (JSON, error) {
+func (this *AttrDescr) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }

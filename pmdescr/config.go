@@ -8,10 +8,10 @@ import (
     "encoding/json"
 )
 
-type IConfig interface {
+type IConfigDescr interface {
 }
 
-type MConfig struct {
+type ConfigDescr struct {
     OwnerId     UUID   `json:"ownerId"`
     ConfigId    UUID   `json:"configId"`
     Name        string          `json:"name"`
@@ -19,8 +19,8 @@ type MConfig struct {
     Value       DValue          `json:"value"`
 }
 
-func NewMConfig(ownerId UUID, configId UUID, name string, dType DType, value DValue) *MConfig {
-    var config MConfig
+func NewConfigDescr(ownerId UUID, configId UUID, name string, dType DType, value DValue) *ConfigDescr {
+    var config ConfigDescr
     config.OwnerId     = ownerId
     config.ConfigId    = configId
     config.Name        = name
@@ -29,13 +29,13 @@ func NewMConfig(ownerId UUID, configId UUID, name string, dType DType, value DVa
     return &config
 }
 
-func (this *MConfig) UnmarshalJSON(data JSON) error {
+func (this *ConfigDescr) UnmarshalJSON(data JSON) error {
     var err error
     // NOP
     return err
 }
 
-func (this *MConfig) MarshalJSON() (JSON, error) {
+func (this *ConfigDescr) MarshalJSON() (JSON, error) {
     return json.Marshal(*this)
 }
 
